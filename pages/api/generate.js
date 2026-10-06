@@ -37,7 +37,8 @@ export default async function handler(req, res) {
   }
 
   try {
-    const openai = new OpenAI();
+    // Keys copied from a PDF often carry stray spaces/line breaks; strip them.
+    const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY.replace(/[\s"']+/g, "") });
     const completion = await openai.chat.completions.create({
       model: MODEL,
       messages: [
